@@ -73,7 +73,6 @@ namespace MonetAPITest.Service
             {
                 ask = 5m,
                 bid = 5m,
-
                 effectiveDate = new DateTime(),
                 no = "1"
             });
@@ -111,6 +110,7 @@ namespace MonetAPITest.Service
             var result = _service.GetExchangeRate(MoneyAPI.Enums.CurrencyEnum.CHF, DateTime.Now, DateTime.Now);
             _moneyRepositoryMock.Verify(i => i.GetNBPData(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(1), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 1 time: i => i.GetExchangeRate()");
         }
+
         [Fact]
         public void GetMoneyData_Is_Function_Used_For_Not_Valid_Data_Empty_Result()
         {

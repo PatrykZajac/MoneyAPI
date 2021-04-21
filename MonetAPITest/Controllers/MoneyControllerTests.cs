@@ -22,11 +22,11 @@ namespace MonetAPITest.Controllers
         [Fact]
         public void GetMoneyData_Return_Expected_Result_Type()
         {
-            _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(new MoneyAPI.Model.Local.APIResult());
+            _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(new APIResult());
 
             var result = _controller.GetMoneyData("EUR", "2021-01-01", "2021-01-02");
 
-            Assert.IsType<ActionResult<MoneyAPI.Model.Local.APIResult>>(result);
+            Assert.IsType<ActionResult<APIResult>>(result);
 
         }
 
@@ -53,7 +53,9 @@ namespace MonetAPITest.Controllers
             _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Callback(() => count++).Returns(new APIResult());
             var result = _controller.GetMoneyData("EUR", "2021-01-01", "2021-01-02");
             _moneyServiceMock.Verify(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(1), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 1 time: i => i.GetExchangeRate()");
+            //Assert.Equal(1, count);
         }
+
         [Fact]
         public void GetMoneyData_Is_Function_Used_For_Not_Valid_Data()
         {
@@ -61,6 +63,7 @@ namespace MonetAPITest.Controllers
             _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Callback(() => count++).Returns(new APIResult());
             var result = _controller.GetMoneyData("asd", "asd", "asd");
             _moneyServiceMock.Verify(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(0), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 0 time: i => i.GetExchangeRate()");
+            //Assert.Equal(0, count);
         }
 
     }
