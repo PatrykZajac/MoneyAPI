@@ -22,10 +22,13 @@ namespace MonetAPITest.Controllers
         [Fact]
         public void GetMoneyData_Return_Expected_Result_Type()
         {
+            //Setup
             _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(new APIResult());
 
+            //Process
             var result = _controller.GetMoneyData("EUR", "2021-01-01", "2021-01-02");
 
+            //Assert
             Assert.IsType<ActionResult<APIResult>>(result);
 
         }
@@ -51,7 +54,9 @@ namespace MonetAPITest.Controllers
         {
             var count = 0;
             _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Callback(() => count++).Returns(new APIResult());
+            
             var result = _controller.GetMoneyData("EUR", "2021-01-01", "2021-01-02");
+            
             _moneyServiceMock.Verify(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(1), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 1 time: i => i.GetExchangeRate()");
             //Assert.Equal(1, count);
         }
@@ -61,7 +66,9 @@ namespace MonetAPITest.Controllers
         {
             var count = 0;
             _moneyServiceMock.Setup(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>())).Callback(() => count++).Returns(new APIResult());
+            
             var result = _controller.GetMoneyData("asd", "asd", "asd");
+            
             _moneyServiceMock.Verify(i => i.GetExchangeRate(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(0), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 0 time: i => i.GetExchangeRate()");
             //Assert.Equal(0, count);
         }

@@ -120,7 +120,7 @@ namespace MonetAPITest.Service
                 rates = new System.Collections.Generic.List<NBPExchangeRateDTO>()
             });
             var ex = Assert.Throws<APIReturnsEmptyDataException>(() => _service.GetExchangeRate(MoneyAPI.Enums.CurrencyEnum.CHF, DateTime.Now, DateTime.Now));
-            _moneyRepositoryMock.Verify(i => i.GetNBPData(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(1), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 0 time: i => i.GetExchangeRate()");
+            _moneyRepositoryMock.Verify(i => i.GetNBPData(It.IsAny<MoneyAPI.Enums.CurrencyEnum>(), It.IsAny<DateTime>(), It.IsAny<DateTime>()), Times.Exactly(1), "Moq.MockException: Invocation was unexpectedly performed " + count + " times, not 1 time: i => i.GetExchangeRate()");
         }
 
         [Fact]
